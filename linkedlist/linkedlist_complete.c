@@ -9,7 +9,6 @@ typedef struct NodeP {
 typedef struct {
 	Node *head;
 	int size;
-	int maxSize;
 } LinkedList;
 
 Node* newNode(int val) {
@@ -19,11 +18,10 @@ Node* newNode(int val) {
 	return n;
 }
 
-LinkedList* newLinkedList(int maxSize) {
+LinkedList* newLinkedList() {
 	LinkedList *list = malloc(sizeof(LinkedList));
 	list->head = NULL;
 	list->size = 0;
-	list->maxSize = maxSize;
 	return list;
 }
 
@@ -133,10 +131,6 @@ void deleteLast(LinkedList *list) {
 }
 
 void insert(LinkedList *list, int index, int val) {
-	if (list->size == list->maxSize) {
-		printf("Max size reached.\n");
-		return;
-	}
 
 	if (index < 0) {
 		printf("Index cannot be negative.\n");
@@ -295,7 +289,7 @@ int main(void) {
 	int MIN_VAL = -99;
 	int MAX_VAL = 99;
 
-	LinkedList *list = newLinkedList(20);
+	LinkedList *list = newLinkedList();
 
 	for (int i = 0; i < NUMS; i++) {
 		int r = randInt(MIN_VAL, MAX_VAL);
