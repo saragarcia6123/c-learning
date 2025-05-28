@@ -45,9 +45,6 @@ Node* getLast(LinkedList *list) {
 }
 
 Node* get(LinkedList *list, int index) {
-	if (list->size == 0) {
-		return NULL;
-	}
 
 	if (index >= list->size) {
 		return NULL;
@@ -96,13 +93,8 @@ void deleteFirst(LinkedList *list) {
 		printf("List is empty.\n");
 		return;
 	}
-
-	if (list->head->next) {
-		list->head = list->head->next;
-	} else {
-		list->head = NULL;
-	}
-
+	
+	list->head = list->head->next;
 	list->size--;
 
 	printf("Deleted node at head.\n");
