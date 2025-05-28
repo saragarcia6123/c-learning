@@ -54,15 +54,14 @@ Node* get(LinkedList *list, int index) {
 	for (int i = 0; i < index; i++) {
 		cur = cur->next;
 	}
+
 	return cur;
 }
 
 void insertFirst(LinkedList *list, int val) {
 	Node *n = newNode(val);
 
-	if (list->head) {
-		n->next = list->head;
-	}
+	n->next = list->head;
 
 	list->head = n;
 	list->size++;
@@ -88,38 +87,46 @@ void insertLast(LinkedList *list, int val) {
 	printf("Inserted node at tail with value %d.\n", val);
 }
 
-void deleteFirst(LinkedList *list) {
+Node* removeFirst(LinkedList *list) {
 	if (!list->head) {
 		printf("List is empty.\n");
-		return;
+		return NULL;
 	}
+
+	Node *target = list->head;
 	
 	list->head = list->head->next;
 	list->size--;
 
-	printf("Deleted node at head.\n");
+	printf("Removed node at head with value %d.\n", target->val);
+
+	return target;
 }
 
-void deleteLast(LinkedList *list) {
+Node* removeLast(LinkedList *list) {
 	if (!list->head) {
 		printf("List is empty.\n");
-		return;
+		return NULL;
 	}
+	
+	Node *target = NULL;
 
 	if (list->head->next) {
 		Node *prev = list->head;
 		while (prev->next->next) {
 			prev = prev->next;
 		}
-
+		target = prev->next;
 		prev->next = NULL;
 	} else {
+		target = list->head;
 		list->head = NULL;
 	}
 
 	list->size--;
 	
-	printf("Deleted node at tail.\n");
+	printf("Removed node at tail with value %d.\n", target->val);
+	return target;
 }
 
 void insert(LinkedList *list, int index, int val) {
@@ -135,13 +142,11 @@ void insert(LinkedList *list, int index, int val) {
 	}
 
 	if (index == 0 || list->size == 0) {
-		insertFirst(list, val);
-		return;
+		return insertFirst(list, val);
 	}
 	
 	if (index == list->size) {
-		insertLast(list, val);
-		return;
+		return insertLast(list, val);
 	}
 
 	Node *n = newNode(val);
@@ -162,34 +167,32 @@ void insert(LinkedList *list, int index, int val) {
 	printf("Inserted node at index %d with value %d.\n", index, val);
 }
 
-void delete(LinkedList *list, int index) {
+Node* removeNode(LinkedList *list, int index) {
 	if (list->size == 0) {
 		printf("List is empty.\n");
-		return;
+		return NULL;
 	}
 
 	if (index < 0) {
 		printf("Index cannot be negative.\n");
-		return;
+		return NULL;
 	}
 
 	if (index >= list->size) {
 		printf("Index exceeds size.\n");
-		return;
+		return NULL;
 	}
 
 	if (index == 0) {
-		deleteFirst(list);
-		return;
+		return removeFirst(list);
 	}
 
 	if (index == list->size-1) {
-		deleteLast(list);
-		return;
+		return removeLast(list);
 	}
 	
 	Node *prev = list->head;
-	for (int i = 0; i < index; i++) {
+	for (int i = 0; i < index-1; i++) {
 		prev = prev->next;
 	}
 
@@ -200,10 +203,11 @@ void delete(LinkedList *list, int index) {
 		prev->next = NULL;	
 	}
 	
-	free(target);
 	list->size--;
 
-	printf("Deleted node at index %d.\n", index);
+	printf("Removed node at index %d with value %d.\n", index, target->val);
+
+	return target;
 }
 
 void update(LinkedList *list, int index, int val) {
@@ -283,6 +287,8 @@ int main(void) {
 
 	LinkedList *list = newLinkedList();
 
+	Node *cur = NULL;
+
 	for (int i = 0; i < NUMS; i++) {
 		int r = randInt(MIN_VAL, MAX_VAL);
 		insertLast(list, r);
@@ -292,13 +298,27 @@ int main(void) {
 
 	insert(list, 0, 5);
 	insert(list, 4, -25);
-
 	insertFirst(list, 42);
 
-	delete(list, 1);
-	delete(list, list->size-1);
+	printList(list);
+
+	cur = removeNode(list, 1);
+	free(cur);
+	
+	cur = removeNode(list, list->size-2);
+	free(cur);
+
+	cur = removeFirst(list);
+	free(cur);
+
+	cur = removeLast(list);
+	free(cur);
+
+	printList(list);
 
 	update(list, 8, 200);
+	update(list, 0, 0);
+	update(list, list->size - 1, 100);
 
 	printList(list);
 
@@ -308,5 +328,6 @@ int main(void) {
 	printf("%d: %d\n", list->size-1, getLast(list)->val);
 
 	freeList(list);
+
 	return 0;
 }
