@@ -25,6 +25,7 @@ LinkedList* newLinkedList() {
 	return list;
 }
 
+/* Returns the head of a list or null if empty */
 Node* getFirst(LinkedList *list) {
 	if (list->size == 0) {
 		return NULL;
@@ -32,6 +33,7 @@ Node* getFirst(LinkedList *list) {
 	return list->head;
 }
 
+/* Returns the tail of a list or null if empty */
 Node* getLast(LinkedList *list) {
 	if (list->size == 0) {
 		return NULL;
@@ -44,6 +46,7 @@ Node* getLast(LinkedList *list) {
 	return cur;
 }
 
+/* Returns node at given index */
 Node* get(LinkedList *list, int index) {
 
 	if (index >= list->size) {
@@ -58,6 +61,7 @@ Node* get(LinkedList *list, int index) {
 	return cur;
 }
 
+/* Inserts new node at the start and sets new head */
 void insertFirst(LinkedList *list, int val) {
 	Node *n = newNode(val);
 
@@ -69,6 +73,7 @@ void insertFirst(LinkedList *list, int val) {
 	printf("Inserted node at head with value %d.\n", val);
 }
 
+/* Inserts new node at the end */
 void insertLast(LinkedList *list, int val) {
 	Node *n = newNode(val);
 
@@ -87,6 +92,7 @@ void insertLast(LinkedList *list, int val) {
 	printf("Inserted node at tail with value %d.\n", val);
 }
 
+/* Removes and returns head */
 Node* removeFirst(LinkedList *list) {
 	if (!list->head) {
 		printf("List is empty.\n");
@@ -103,6 +109,7 @@ Node* removeFirst(LinkedList *list) {
 	return target;
 }
 
+/* Removes and returns tail */
 Node* removeLast(LinkedList *list) {
 	if (!list->head) {
 		printf("List is empty.\n");
@@ -129,6 +136,7 @@ Node* removeLast(LinkedList *list) {
 	return target;
 }
 
+/* Inserts new node at given index with given value */
 void insert(LinkedList *list, int index, int val) {
 
 	if (index < 0) {
@@ -167,6 +175,7 @@ void insert(LinkedList *list, int index, int val) {
 	printf("Inserted node at index %d with value %d.\n", index, val);
 }
 
+/* Removes node at given index */
 Node* removeNode(LinkedList *list, int index) {
 	if (list->size == 0) {
 		printf("List is empty.\n");
@@ -210,6 +219,7 @@ Node* removeNode(LinkedList *list, int index) {
 	return target;
 }
 
+/* Updates value of node at given index */
 void update(LinkedList *list, int index, int val) {
 	if (list->size == 0) {
 		printf("List is empty.\n");
@@ -233,6 +243,7 @@ void update(LinkedList *list, int index, int val) {
 	printf("Updated node at index %d from %d to %d.\n", index, prevVal, val);
 }
 
+/* Iterates through and prints each element in the list */
 void printList(LinkedList *list) {
 	if (list->size == 0) {
 		return;
@@ -251,6 +262,7 @@ void printList(LinkedList *list) {
 	printf("\n");
 }
 
+/* Frees all node objects in list */
 void freeList(LinkedList *list) {
 	if (!list->head) {
 		free(list);
@@ -273,6 +285,7 @@ void freeList(LinkedList *list) {
 	}
 
 	free(list);
+	// +1 to account for list itself
 	printf("Freed %d objects. (Expected: %d)\n", freed+1, expected+1);
 }
 
